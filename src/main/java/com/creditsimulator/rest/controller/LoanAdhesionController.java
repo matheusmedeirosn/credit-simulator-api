@@ -1,4 +1,4 @@
-package com.creditsimulator.rest;
+package com.creditsimulator.rest.controller;
 
 import com.creditsimulator.core.LoanAdhesionService;
 import com.creditsimulator.domain.model.adhesion.LoanAdhesionResponseModel;

@@ -1,4 +1,4 @@
-package com.creditsimulator.rest;
+package com.creditsimulator.rest.controller;
 
 import com.creditsimulator.core.LoanSimulationService;
 import com.creditsimulator.rest.mapper.RequestToModelMapper;
