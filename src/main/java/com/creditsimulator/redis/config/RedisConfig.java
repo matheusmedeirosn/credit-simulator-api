@@ -1,5 +1,6 @@
 package com.creditsimulator.redis.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,27 +11,18 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
+@RequiredArgsConstructor
 public class RedisConfig {
 
-    @Value("${spring.redis.host}")
-    private String redisHost;
-
-    @Value("${spring.redis.port}")
-    private int redisPort;
-
-    @Value("${spring.redis.username}")
-    private String redisUsername;
-
-    @Value("${spring.redis.password}")
-    private String redisPassword;
+    private final RedisProperties properties;
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-        config.setHostName(redisHost);
-        config.setPort(redisPort);
-        config.setUsername(redisUsername);
-        config.setPassword(redisPassword);
+        config.setHostName(properties.getHost());
+        config.setPort(properties.getPort());
+        config.setUsername(properties.getUsername());
+        config.setPassword(properties.getPassword());
 
         return new LettuceConnectionFactory(config);
     }
