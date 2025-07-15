@@ -34,8 +34,8 @@ public record LoanAdhesionRequestDTO(
                 example = EXAMPLE_DATE,
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
-        @JsonProperty("data_vencimento")
-        @NotNull @Future LocalDate dueDate,
+        @JsonProperty("data_primeiro_vencimento")
+        @NotNull @Future LocalDate firstDueDate,
 
         @Schema(
                 description = "Meio de pagamento escolhido",

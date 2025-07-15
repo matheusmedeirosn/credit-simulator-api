@@ -19,12 +19,16 @@ public class LoanAdhesionRequestModel {
     private BigDecimal totalInterest;
     private BigDecimal totalAmount;
     private BigDecimal annualInterestRate;
+    private Integer months;
+    private BigDecimal amount;
 
     public void fromSimulation(LoanSimulationResponseModel simulation){
         this.monthlyPayment = simulation.getMonthlyPayment();
         this.totalInterest = simulation.getTotalInterest();
         this.totalAmount = simulation.getTotalAmount();
         this.annualInterestRate = simulation.getAnnualInterestRate();
+        this.amount = simulation.getAmount();
+        this.months = simulation.getMonths();
     }
 
 }

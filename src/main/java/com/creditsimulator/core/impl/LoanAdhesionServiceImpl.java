@@ -2,6 +2,7 @@ package com.creditsimulator.core.impl;
 
 import com.creditsimulator.core.LoanAdhesionService;
 import com.creditsimulator.domain.exception.SimulationNotFoundException;
+import com.creditsimulator.domain.mapper.AdhesionRequestToResponseMapper;
 import com.creditsimulator.domain.model.adhesion.LoanAdhesionRequestModel;
 import com.creditsimulator.domain.model.adhesion.LoanAdhesionResponseModel;
 import com.creditsimulator.domain.model.simulation.LoanSimulationResponseModel;
@@ -25,6 +26,6 @@ public class LoanAdhesionServiceImpl implements LoanAdhesionService {
                 .orElseThrow(() -> new SimulationNotFoundException("Simulação de ID " + requestModel.getSimulationId() + "não encontrada ou expirada"));
         requestModel.fromSimulation(simulation);
         messageProducer.sendToQueue(requestModel);
-        return null;
+        return AdhesionRequestToResponseMapper.INSTANCE.toRequestModel(requestModel);
     }
 }

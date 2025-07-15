@@ -1,17 +1,24 @@
 package com.creditsimulator.domain.model.adhesion;
 
 import com.creditsimulator.domain.enums.PaymentMethod;
+import com.creditsimulator.domain.model.LoanBase;
+import com.creditsimulator.domain.model.simulation.LoanSimulationResponseModel;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
-public class LoanAdhesionResponseModel {
+@Data
+public class LoanAdhesionResponseModel extends LoanBase {
 
-    private UUID contractId;
+    private String simulationId;
     private LocalDate contractDate;
     private LocalDate firstDueDate;
-    private BigDecimal installmentAmount;
+    private BigDecimal monthlyPayment;
     private PaymentMethod paymentMethod;
-
+    private BigDecimal totalInterest;
+    private BigDecimal totalAmount;
+    private BigDecimal annualInterestRate;
+    private Integer months;
+    private BigDecimal amount;
 }
