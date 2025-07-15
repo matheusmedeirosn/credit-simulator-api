@@ -12,9 +12,11 @@ public class RestConstants {
 
     // Exemplos de entrada/saida
     public static final String EXAMPLE_AMOUNT = "10000.00";
-    public static final String EXAMPLE_BIRTHDATE = "1990-05-15";
+    public static final String EXAMPLE_DATE = "1990-05-15";
     public static final String EXAMPLE_MONTHS = "12";
     public static final String EXAMPLE_ANNUAL_RATE = "0.03";
+    public static final String EXAMPLE_PAYMENT_METHOD = "DEBITO_AUTOMATICO";
+    public static final String EXAMPLE_UUID = "550e8400-e29b-41d4-a716-446655440000";
 
     // Valores minimos e maximos de entrada/saida
     public static final String MIN_VALUE_AMOUNT = "1.00";
@@ -27,7 +29,7 @@ public class RestConstants {
     public static final String VALIDATION_NOT_BLANK = "O valor não deve ser nulo ou vazio";
     public static final String VALIDATION_POSITIVE = "O valor deve ser positivo";
     public static final String VALIDATION_VALUE_MIN = "O valor mínimo é ";
-    public static final String VALIDATION_PATTERN_DATE_BIRTH = "O formato da data de nascimento deve ser 'yyyy-mm-dd'";
+    public static final String VALIDATION_PATTERN_DATE = "O formato da data deve ser 'yyyy-mm-dd'";
 
 
 

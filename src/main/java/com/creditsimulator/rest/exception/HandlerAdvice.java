@@ -1,5 +1,6 @@
 package com.creditsimulator.rest.exception;
 
+import com.creditsimulator.domain.exception.SimulationNotFoundException;
 import com.creditsimulator.rest.message.response.exception.BadRequestResponse;
 import com.creditsimulator.rest.message.response.exception.Inconsistency;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -38,6 +39,10 @@ public class HandlerAdvice {
         return BadRequestResponse.builder().inconsistencies(inconsistencyList).messageCode(String.valueOf(HttpStatus.BAD_REQUEST.value()))
                 .message(MESSAGE_ERROR_VALIDATION).build();
     }
+
+    @ExceptionHandler(SimulationNotFoundException.class)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    protected void handleMethodArgumentNotValid(SimulationNotFoundException exception){}
 
     public static Optional<String> findPtName(FieldError fieldError, Object targetObject) {
         try {

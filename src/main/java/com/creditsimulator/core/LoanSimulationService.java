@@ -1,10 +1,10 @@
 package com.creditsimulator.core;
 
-import com.creditsimulator.domain.model.LoanSimulationRequestModel;
-import com.creditsimulator.domain.model.LoanSimulationResponseModel;
+import com.creditsimulator.domain.model.simulation.LoanSimulationRequestModel;
+import com.creditsimulator.domain.model.simulation.LoanSimulationResponseModel;
 
 public interface LoanSimulationService {
 
-    public LoanSimulationResponseModel simulateLoan(LoanSimulationRequestModel request);
+    public LoanSimulationResponseModel simulateLoan(LoanSimulationRequestModel requestModel);
 
 }

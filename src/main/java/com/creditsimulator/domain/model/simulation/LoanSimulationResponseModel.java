@@ -1,12 +1,17 @@
-package com.creditsimulator.domain.model;
+package com.creditsimulator.domain.model.simulation;
 
+import com.creditsimulator.domain.model.LoanBase;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class LoanSimulationResponseModel extends LoanBase {
 
@@ -14,6 +19,7 @@ public class LoanSimulationResponseModel extends LoanBase {
     private BigDecimal totalInterest;
     private BigDecimal totalAmount;
     private BigDecimal annualInterestRate;
+    private String e2e;
 
     public LoanSimulationResponseModel(
             BigDecimal amount,
@@ -28,6 +34,7 @@ public class LoanSimulationResponseModel extends LoanBase {
         this.totalInterest = totalInterest;
         this.totalAmount = totalAmount;
         this.annualInterestRate = annualInterestRate;
+        this.e2e = UUID.randomUUID().toString();
     }
 
 }

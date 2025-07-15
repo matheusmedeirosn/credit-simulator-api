@@ -3,8 +3,9 @@ package com.creditsimulator.core.impl;
 import com.creditsimulator.core.InterestCalculator;
 import com.creditsimulator.core.LoanSimulationService;
 import com.creditsimulator.domain.enums.AgeBracketEnum;
-import com.creditsimulator.domain.model.LoanSimulationRequestModel;
-import com.creditsimulator.domain.model.LoanSimulationResponseModel;
+import com.creditsimulator.domain.model.simulation.LoanSimulationRequestModel;
+import com.creditsimulator.domain.model.simulation.LoanSimulationResponseModel;
+import com.creditsimulator.redis.service.LoanSimulationCacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,10 @@ import java.time.Period;
 
 @Service
 @RequiredArgsConstructor
-public class LoanSimulationSimulationServiceImpl implements LoanSimulationService {
+public class LoanSimulationServiceImpl implements LoanSimulationService {
 
     private final InterestCalculator interestCalculator;
+    private final LoanSimulationCacheService cacheService;
 
     @Override
     public LoanSimulationResponseModel simulateLoan(LoanSimulationRequestModel request) {
@@ -30,13 +32,13 @@ public class LoanSimulationSimulationServiceImpl implements LoanSimulationServic
                 request.getMonths()
         );
 
-        return buildResponse(
-                request.getAmount(),
-                monthlyPayment,
-                request.getMonths(),
-                annualInterestRate
-        );
+        LoanSimulationResponseModel responseModel=  buildResponse(request.getAmount(), monthlyPayment, request.getMonths(), annualInterestRate);
+        publishCacheSimulation(responseModel);
+        return responseModel;
+    }
 
+    private void publishCacheSimulation (LoanSimulationResponseModel responseModel){
+        cacheService.saveSimulationToCache(responseModel.getE2e(), responseModel);
     }
 
     private BigDecimal calculateMonthlyPayment(BigDecimal loanAmount, BigDecimal monthlyRate, int termMonths) {

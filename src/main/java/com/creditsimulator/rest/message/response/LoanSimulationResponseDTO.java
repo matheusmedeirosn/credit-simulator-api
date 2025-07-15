@@ -8,12 +8,10 @@ import java.math.BigDecimal;
 import static com.creditsimulator.rest.utils.RestConstants.*;
 
 @Schema(description = "Resposta detalhada da simulação de empréstimo")
-public record LoanResponse(
+public record LoanSimulationResponseDTO(
         @Schema(
                 description = "Valor original solicitado para o empréstimo",
                 example = EXAMPLE_AMOUNT,
-                type = "number",
-                format = "double",
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
         @JsonProperty("valor_solicitado")
@@ -22,8 +20,6 @@ public record LoanResponse(
         @Schema(
                 description = "Valor calculado de cada parcela mensal",
                 example = EXAMPLE_AMOUNT,
-                type = "number",
-                format = "double",
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
         @JsonProperty("parcela_mensal")
@@ -32,8 +28,6 @@ public record LoanResponse(
         @Schema(
                 description = "Total de juros acumulados durante todo o período",
                 example = EXAMPLE_AMOUNT,
-                type = "number",
-                format = "double",
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
         @JsonProperty("total_juros")
@@ -42,8 +36,6 @@ public record LoanResponse(
         @Schema(
                 description = "Valor total a ser pago (capital + juros)",
                 example = EXAMPLE_AMOUNT,
-                type = "number",
-                format = "double",
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
         @JsonProperty("valor_total")
@@ -52,8 +44,6 @@ public record LoanResponse(
         @Schema(
                 description = "Taxa de juros anual aplicada, baseada na idade do cliente",
                 example = EXAMPLE_ANNUAL_RATE,
-                type = "number",
-                format = "double",
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
         @JsonProperty("taxa_juros_anual")
@@ -62,11 +52,13 @@ public record LoanResponse(
         @Schema(
                 description = "Prazo do empréstimo em meses",
                 example = MAX_VALUE_MONTHS,
-                minimum = "1",
-                maximum = "120",
+                minimum = MIN_VALUE_MONTHS,
+                maximum = MAX_VALUE_MONTHS,
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
         @JsonProperty("prazo_meses")
-        Integer months
+        Integer months,
+
+        String e2e
 ) {
 }
