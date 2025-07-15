@@ -15,8 +15,12 @@ public class LoanMessageProducer {
     private final RabbitMQProperties properties;
 
     public void sendToQueue(Object message) {
-        rabbitTemplate.convertAndSend(properties.getName(), message);
-        log.info("Mensagem enviada para a fila: " + message);
+        try {
+            rabbitTemplate.convertAndSend(properties.getName(), message);
+            log.info("Mensagem enviada para a fila: {}", message);
+        } catch (Exception e) {
+            log.error("Erro ao enviar mensagem para a fila: {}", message, e);
+            throw e;
+        }
     }
-
 }
