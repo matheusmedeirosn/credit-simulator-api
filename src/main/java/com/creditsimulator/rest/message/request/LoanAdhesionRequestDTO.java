@@ -1,8 +1,10 @@
 package com.creditsimulator.rest.message.request;
 
+import com.creditsimulator.rest.validate.BankAccountDetailsRequired;
 import com.creditsimulator.rest.validate.ValidFirstDueDate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 
 import static com.creditsimulator.rest.utils.RestConstants.*;
 
+@BankAccountDetailsRequired
 public record LoanAdhesionRequestDTO(
         @Schema(
                 description = "ID único do contrato gerado",
@@ -54,10 +57,9 @@ public record LoanAdhesionRequestDTO(
                 example = EXAMPLE_PAYMENT_METHOD,
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
+        @Valid
         @JsonProperty("detalhes_bancarios")
         BankAccountDetailsDTO bankAccountDetails
-
-
 
 ) {
 }

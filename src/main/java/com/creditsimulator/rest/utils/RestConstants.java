@@ -2,7 +2,7 @@ package com.creditsimulator.rest.utils;
 
 public class RestConstants {
 
-    public static final String API_TITLE = "API de Simulação de Empréstimo";
+    public static final String API_TITLE = "API de Simulação e Adesão de Empréstimo";
     public static final String API_DESCRIPTION = "API para calcular parcelas, juros e valores totais de empréstimos";
     public static final String API_VERSION = "1.0.0";
     public static final String API_CONTACT_NAME = "Equipe de Desenvolvimento";
