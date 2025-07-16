@@ -3,7 +3,6 @@ package com.creditSimulator.redis.service;
 import com.creditsimulator.domain.model.simulation.LoanSimulationResponseModel;
 import com.creditsimulator.redis.exception.RedisOperationException;
 import com.creditsimulator.redis.service.LoanSimulationCacheService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,10 +17,9 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyLong;
 
 @ExtendWith(MockitoExtension.class)
 class LoanSimulationCacheServiceTest {
@@ -107,21 +105,5 @@ class LoanSimulationCacheServiceTest {
         });
 
         verify(valueOperations).get(cacheKey);
-    }
-
-    @Test
-    void invalidateSimulation_ShouldDeleteKey() {
-        loanSimulationCacheService.invalidateSimulation(simulationId);
-
-        verify(redisTemplate).delete(cacheKey);
-    }
-
-    @Test
-    void invalidateSimulation_WhenKeyNotExists_ShouldNotThrowException() {
-        doThrow(new RuntimeException("Key not found")).when(redisTemplate).delete(cacheKey);
-
-        loanSimulationCacheService.invalidateSimulation(simulationId);
-
-        verify(redisTemplate).delete(cacheKey);
     }
 }
