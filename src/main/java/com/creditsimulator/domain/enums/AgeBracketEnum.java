@@ -1,7 +1,10 @@
 package com.creditsimulator.domain.enums;
 
+import lombok.Getter;
+
 import java.math.BigDecimal;
 
+@Getter
 public enum AgeBracketEnum {
 
     YOUNG(25, "0.05"),

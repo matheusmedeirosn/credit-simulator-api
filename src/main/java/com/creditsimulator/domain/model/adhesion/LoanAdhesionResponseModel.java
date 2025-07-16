@@ -2,13 +2,14 @@ package com.creditsimulator.domain.model.adhesion;
 
 import com.creditsimulator.domain.enums.PaymentMethod;
 import com.creditsimulator.domain.model.LoanBase;
-import com.creditsimulator.domain.model.simulation.LoanSimulationResponseModel;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
+@Builder
 public class LoanAdhesionResponseModel extends LoanBase {
 
     private String simulationId;

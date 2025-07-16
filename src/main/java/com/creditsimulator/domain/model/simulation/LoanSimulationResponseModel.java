@@ -1,10 +1,7 @@
 package com.creditsimulator.domain.model.simulation;
 
 import com.creditsimulator.domain.model.LoanBase;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -12,6 +9,7 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Data
 public class LoanSimulationResponseModel extends LoanBase {
 

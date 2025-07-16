@@ -75,13 +75,10 @@ public class LoanSimulationServiceImpl implements LoanSimulationService {
             int termMonths,
             BigDecimal annualInterestRate
     ) {
-        // 1. Cálculo do valor total a ser pago
         BigDecimal totalAmount = monthlyPayment.multiply(BigDecimal.valueOf(termMonths));
 
-        // 2. Cálculo do total de juros pagos
         BigDecimal totalInterest = totalAmount.subtract(loanAmount);
 
-        // 3. Construção do objeto de resposta
         return new LoanSimulationResponseModel(
                 loanAmount,                      // valor do empréstimo
                 termMonths,                      // prazo em meses
