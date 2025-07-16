@@ -1,6 +1,7 @@
 package com.creditsimulator.rest.controller;
 
 import com.creditsimulator.core.LoanSimulationService;
+import com.creditsimulator.domain.exception.LoanSimulationException;
 import com.creditsimulator.rest.mapper.RequestToModelMapper;
 import com.creditsimulator.rest.mapper.ResponseModelToDtoMapper;
 import com.creditsimulator.rest.message.request.LoanSimulationRequestDTO;
@@ -21,7 +22,7 @@ public class LoanSimulationController {
     private final LoanSimulationService simulationService;
 
     @PostMapping("/simulacao")
-    public ResponseEntity<LoanSimulationResponseDTO> simulateLoan(@Valid @RequestBody LoanSimulationRequestDTO request) {
+    public ResponseEntity<LoanSimulationResponseDTO> simulateLoan(@Valid @RequestBody LoanSimulationRequestDTO request) throws LoanSimulationException {
         LoanSimulationResponseDTO response = ResponseModelToDtoMapper.INSTANCE.toResponseModel(
                 simulationService.simulateLoan(RequestToModelMapper.INSTANCE.toRequestModel(request))
         );
