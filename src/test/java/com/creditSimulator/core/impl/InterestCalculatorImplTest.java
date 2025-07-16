@@ -7,7 +7,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class InterestCalculatorImplTest {
 
@@ -15,13 +16,10 @@ class InterestCalculatorImplTest {
 
     @Test
     void calculateMonthlyRate_ShouldDivideAnnualRateBy12() {
-        // Arrange
         BigDecimal annualRate = new BigDecimal("0.12"); // 12% ao ano
 
-        // Act
         BigDecimal monthlyRate = calculator.calculateMonthlyRate(annualRate);
 
-        // Assert
         assertEquals(new BigDecimal("0.0100000000"), monthlyRate);
         assertEquals(10, monthlyRate.scale());
     }
@@ -36,27 +34,21 @@ class InterestCalculatorImplTest {
     })
     void calculateMonthlyRate_WithVariousRates_ShouldReturnCorrectValues(
             String annualRateStr, String expectedMonthlyRateStr) {
-        // Arrange
         BigDecimal annualRate = new BigDecimal(annualRateStr);
 
-        // Act
         BigDecimal result = calculator.calculateMonthlyRate(annualRate);
 
-        // Assert
         assertEquals(new BigDecimal(expectedMonthlyRateStr), result);
     }
 
     @Test
     void calculateMonthlyPayment_ShouldCalculateCorrectPayment() {
-        // Arrange
         BigDecimal loanAmount = new BigDecimal("10000.00");
         BigDecimal monthlyRate = new BigDecimal("0.01"); // 1% ao mês
         int termMonths = 12;
 
-        // Act
         BigDecimal payment = calculator.calculateMonthlyPayment(loanAmount, monthlyRate, termMonths);
 
-        // Assert
         assertEquals(new BigDecimal("888.49"), payment);
         assertEquals(2, payment.scale());
     }
@@ -71,14 +63,11 @@ class InterestCalculatorImplTest {
     })
     void calculateMonthlyPayment_WithVariousInputs_ShouldReturnCorrectValues(
             String amountStr, String rateStr, int term, String expectedPaymentStr) {
-        // Arrange
         BigDecimal amount = new BigDecimal(amountStr);
         BigDecimal rate = new BigDecimal(rateStr);
 
-        // Act
         BigDecimal result = calculator.calculateMonthlyPayment(amount, rate, term);
 
-        // Assert
         assertEquals(new BigDecimal(expectedPaymentStr), result);
     }
 
