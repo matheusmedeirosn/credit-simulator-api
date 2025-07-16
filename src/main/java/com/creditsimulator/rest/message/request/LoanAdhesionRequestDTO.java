@@ -1,5 +1,6 @@
 package com.creditsimulator.rest.message.request;
 
+import com.creditsimulator.rest.validate.ValidFirstDueDate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Future;
@@ -34,6 +35,7 @@ public record LoanAdhesionRequestDTO(
                 example = EXAMPLE_DATE,
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
+        @ValidFirstDueDate
         @JsonProperty("data_primeiro_vencimento")
         @NotNull @Future LocalDate firstDueDate,
 
