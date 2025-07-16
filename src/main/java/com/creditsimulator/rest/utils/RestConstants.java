@@ -31,8 +31,7 @@ public class RestConstants {
     public static final String VALIDATION_VALUE_MIN = "O valor mínimo é ";
     public static final String VALIDATION_PATTERN_DATE = "O formato da data deve ser 'yyyy-mm-dd'";
 
-
-
-
+    // Mensagem excecao
+    public static final String INTERNAL_ERROR_MESSAGE = "Erro interno ao processar a requisição. Por favor, tente novamente mais tarde.";
 
 }

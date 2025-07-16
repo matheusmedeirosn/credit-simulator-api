@@ -1,10 +1,12 @@
 package com.creditsimulator.rest.exception;
 
 import com.creditsimulator.domain.exception.SimulationNotFoundException;
+import com.creditsimulator.rest.message.response.BaseResponse;
 import com.creditsimulator.rest.message.response.exception.BadRequestResponse;
 import com.creditsimulator.rest.message.response.exception.Inconsistency;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,9 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.creditsimulator.rest.utils.RestConstants.INTERNAL_ERROR_MESSAGE;
 import static com.creditsimulator.rest.utils.RestConstants.MESSAGE_ERROR_VALIDATION;
 
 @RestControllerAdvice
+@Slf4j
 public class HandlerAdvice {
 
     @SneakyThrows
@@ -30,7 +34,7 @@ public class HandlerAdvice {
         Object target = exception.getBindingResult().getTarget();
         exception.getBindingResult().getAllErrors().forEach(error -> {
             final FieldError field = (FieldError) error;
-            final String fieldName = findPtName(field,target).orElse(field.getField());
+            final String fieldName = findPtName(field, target).orElse(field.getField());
             final String message = field.getDefaultMessage();
 
             inconsistencyList.add(Inconsistency.builder().field(fieldName).description(message).build());
@@ -42,7 +46,19 @@ public class HandlerAdvice {
 
     @ExceptionHandler(SimulationNotFoundException.class)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    protected void handleMethodArgumentNotValid(SimulationNotFoundException exception){}
+    protected void handleMethodArgumentNotValid(SimulationNotFoundException exception) {
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected BaseResponse handleGenericException(Exception exception) {
+        log.error("Erro não mapeado: {}", exception.getMessage());
+
+        return new BaseResponse(
+                String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
+                INTERNAL_ERROR_MESSAGE
+        );
+    }
 
     public static Optional<String> findPtName(FieldError fieldError, Object targetObject) {
         try {
