@@ -3,6 +3,10 @@
 ## 📌 Visão Geral
 API RESTful para simulação de condições de empréstimo e processamento de adesões, com validações de regras de negócio, cálculo de parcelas e geração de contratos.
 
+## 🧱 Arquitetura
+
+![Arquitetura do Sistema](./docs/arquitetura.png)
+
 ## ✨ Funcionalidades Principais
 
 ### 🔍 Simulação de Empréstimos
@@ -37,7 +41,7 @@ API RESTful para simulação de condições de empréstimo e processamento de ad
 
 - JDK 17+
 - Maven 3.8+
-- 
+
 ## 🚀 Instalação e Execução
 
 ### Ambiente Local
