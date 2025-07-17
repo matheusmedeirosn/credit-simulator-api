@@ -35,7 +35,7 @@ public class InterestCalculatorImpl implements InterestCalculator {
         BigDecimal onePlusRate = BigDecimal.ONE.add(monthlyRate);
 
         // (1 + r)^-n
-        BigDecimal compoundedRate = onePlusRate.pow(-termMonths, MathContext.DECIMAL128);
+        BigDecimal compoundedRate = BigDecimal.ONE.divide(onePlusRate.pow(termMonths, MathContext.DECIMAL128), MathContext.DECIMAL128);
 
         // 1 - (1 + r)^-n
         BigDecimal denominator = BigDecimal.ONE.subtract(compoundedRate);

@@ -3,9 +3,12 @@ package com.creditsimulator.core.impl;
 import com.creditsimulator.core.InterestCalculator;
 import com.creditsimulator.core.LoanSimulationService;
 import com.creditsimulator.domain.enums.AgeBracketEnum;
-import com.creditsimulator.domain.model.LoanSimulationRequestModel;
-import com.creditsimulator.domain.model.LoanSimulationResponseModel;
+import com.creditsimulator.domain.exception.LoanSimulationException;
+import com.creditsimulator.domain.model.simulation.LoanSimulationRequestModel;
+import com.creditsimulator.domain.model.simulation.LoanSimulationResponseModel;
+import com.creditsimulator.redis.service.LoanSimulationCacheService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,29 +17,39 @@ import java.time.LocalDate;
 import java.time.Period;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
-public class LoanSimulationSimulationServiceImpl implements LoanSimulationService {
+public class LoanSimulationServiceImpl implements LoanSimulationService {
 
     private final InterestCalculator interestCalculator;
+    private final LoanSimulationCacheService cacheService;
 
     @Override
-    public LoanSimulationResponseModel simulateLoan(LoanSimulationRequestModel request) {
-        BigDecimal annualInterestRate = determineAnnualInterestRate(request.getBirthDate());
-        BigDecimal monthlyInterestRate = interestCalculator.calculateMonthlyRate(annualInterestRate);
+    public LoanSimulationResponseModel simulateLoan(LoanSimulationRequestModel request) throws LoanSimulationException {
+        try {
+            BigDecimal annualInterestRate = determineAnnualInterestRate(request.getBirthDate());
+            BigDecimal monthlyInterestRate = interestCalculator.calculateMonthlyRate(annualInterestRate);
 
-        BigDecimal monthlyPayment = calculateMonthlyPayment(
-                request.getAmount(),
-                monthlyInterestRate,
-                request.getMonths()
-        );
+            BigDecimal monthlyPayment = calculateMonthlyPayment(
+                    request.getAmount(),
+                    monthlyInterestRate,
+                    request.getMonths()
+            );
 
-        return buildResponse(
-                request.getAmount(),
-                monthlyPayment,
-                request.getMonths(),
-                annualInterestRate
-        );
+            LoanSimulationResponseModel responseModel = buildResponse(request.getAmount(), monthlyPayment, request.getMonths(), annualInterestRate);
 
+            publishCacheSimulation(responseModel);
+
+            return responseModel;
+        } catch (Exception e) {
+            log.error("Erro ao simular emprestimo: {}", e.getMessage());
+            throw new LoanSimulationException("Falha na simulação do empréstimo", e);
+        }
+    }
+
+
+    private void publishCacheSimulation(LoanSimulationResponseModel responseModel) {
+        cacheService.saveSimulationToCache(responseModel.getE2e(), responseModel);
     }
 
     private BigDecimal calculateMonthlyPayment(BigDecimal loanAmount, BigDecimal monthlyRate, int termMonths) {
@@ -47,7 +60,7 @@ public class LoanSimulationSimulationServiceImpl implements LoanSimulationServic
         );
     }
 
-    private BigDecimal determineAnnualInterestRate(LocalDate birthDate){
+    private BigDecimal determineAnnualInterestRate(LocalDate birthDate) {
         int age = calculateAge(birthDate);
         return AgeBracketEnum.getRate(age);
     }
@@ -62,13 +75,10 @@ public class LoanSimulationSimulationServiceImpl implements LoanSimulationServic
             int termMonths,
             BigDecimal annualInterestRate
     ) {
-        // 1. Cálculo do valor total a ser pago
         BigDecimal totalAmount = monthlyPayment.multiply(BigDecimal.valueOf(termMonths));
 
-        // 2. Cálculo do total de juros pagos
         BigDecimal totalInterest = totalAmount.subtract(loanAmount);
 
-        // 3. Construção do objeto de resposta
         return new LoanSimulationResponseModel(
                 loanAmount,                      // valor do empréstimo
                 termMonths,                      // prazo em meses
@@ -76,6 +86,7 @@ public class LoanSimulationSimulationServiceImpl implements LoanSimulationServic
                 totalInterest.setScale(2, RoundingMode.HALF_UP),  // Juros totais com 2 decimais
                 totalAmount.setScale(2, RoundingMode.HALF_UP),    // Valor total com 2 decimais
                 annualInterestRate               // Taxa anual usada
-        );    }
+        );
+    }
 
 }

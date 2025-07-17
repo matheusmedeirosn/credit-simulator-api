@@ -17,6 +17,7 @@ import java.util.List;
 public class BadRequestResponse extends BaseResponse {
 
     @JsonProperty("inconsistencias")
+    @Schema(description = "Lista de inconsistências da requisição", name = "inconsistencias")
     private List<Inconsistency> inconsistencies;
 
     @Builder

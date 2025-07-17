@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 import static com.creditsimulator.rest.utils.RestConstants.*;
 
-public record LoanRequest(
+public record LoanSimulationRequestDTO(
         @Schema(
                 description = "Valor solicitado para o empréstimo",
                 example = EXAMPLE_AMOUNT,
@@ -22,10 +22,10 @@ public record LoanRequest(
 
         @Schema(
                 description = "Data de nascimento do solicitante",
-                example = EXAMPLE_BIRTHDATE
+                example = EXAMPLE_DATE
         )
         @NotBlank(message = VALIDATION_NOT_BLANK)
-        @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = VALIDATION_PATTERN_DATE_BIRTH)
+        @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = VALIDATION_PATTERN_DATE)
         @JsonProperty("data_nascimento")
         String birthDate,
 
