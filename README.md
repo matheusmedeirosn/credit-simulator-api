@@ -3,9 +3,9 @@
 ## 📌 Visão Geral
 API RESTful para simulação de condições de empréstimo e processamento de adesões, com validações de regras de negócio, cálculo de parcelas e geração de contratos.
 
-## 🧱 Arquitetura
+ ## 🧱 Arquitetura
 
-![Arquitetura do Sistema](https://github.com/matheusmedeirosn/credit-simulator-api/blob/9e24529b27ddd6113a38640414a9a1cfa6aeef63/Sistema%20de%20Simulac%CC%A7a%CC%83o%20e%20Proposta%20de%20Empre%CC%81stimos.png?raw=true)
+![Arquitetura do Sistema](./arquitetura.png)
 
 ## ✨ Funcionalidades Principais
 
