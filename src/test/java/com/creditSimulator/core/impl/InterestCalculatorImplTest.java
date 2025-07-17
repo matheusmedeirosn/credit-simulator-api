@@ -55,18 +55,19 @@ class InterestCalculatorImplTest {
 
     @ParameterizedTest
     @CsvSource({
-            "10000.00, 0.01, 12, 888.49",     // Empréstimo padrão
-            "5000.00, 0.02, 6, 912.25",       // Valor menor, taxa maior
-            "20000.00, 0.005, 24, 885.72",    // Valor maior, taxa menor
-            "1500.00, 0.03, 3, 530.03",       // Prazo curto
-            "1000.00, 0.00, 5, 200.00"        // Taxa zero (sem juros)
+            "10000.00, 0.05, 12, 856.07",
+            "5000.00, 0.04, 24, 217.12",
+            "20000.00, 0.03, 36, 581.62",
+            "15000.00, 0.02, 12, 1263.58"
     })
     void calculateMonthlyPayment_WithVariousInputs_ShouldReturnCorrectValues(
             String amountStr, String rateStr, int term, String expectedPaymentStr) {
         BigDecimal amount = new BigDecimal(amountStr);
-        BigDecimal rate = new BigDecimal(rateStr);
+        BigDecimal annualRate = new BigDecimal(rateStr);
 
-        BigDecimal result = calculator.calculateMonthlyPayment(amount, rate, term);
+        BigDecimal monthlyRate = calculator.calculateMonthlyRate(annualRate);
+
+        BigDecimal result = calculator.calculateMonthlyPayment(amount, monthlyRate, term);
 
         assertEquals(new BigDecimal(expectedPaymentStr), result);
     }
