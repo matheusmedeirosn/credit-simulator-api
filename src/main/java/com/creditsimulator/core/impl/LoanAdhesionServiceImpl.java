@@ -26,6 +26,7 @@ public class LoanAdhesionServiceImpl implements LoanAdhesionService {
                 .orElseThrow(() -> new SimulationNotFoundException("Simulação de ID " + requestModel.getSimulationId() + "não encontrada ou expirada"));
         requestModel.fromSimulation(simulation);
         messageProducer.sendToQueue(requestModel);
+        cacheService.invalidateSimulation(requestModel.getSimulationId());
         return AdhesionRequestToResponseMapper.INSTANCE.toRequestModel(requestModel);
     }
 }
